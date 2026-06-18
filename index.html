@@ -55,10 +55,6 @@
       <p class="eyebrow">AI 导航</p>
       <p id="aiMessage">欢迎进入太阳系探索计划。点击任意行星开始扫描任务。</p>
       <div id="aiTips" class="ai-tips"></div>
-      <div class="guide-mini" id="aiGuideMini" aria-hidden="true">
-        <span class="guide-core"><i></i></span>
-        <span class="guide-copy">星导员小轨待命</span>
-      </div>
     </aside>
 
     <aside class="info-panel glass">
@@ -78,6 +74,21 @@
 
     <div class="planet-strip glass" id="planetStrip" aria-label="星球快速选择"></div>
     <button class="music-btn glass" id="musicBtn" type="button" aria-pressed="false">背景音乐 关</button>
+    <div class="guide-mini scene-guide" id="aiGuideMini" aria-hidden="true">
+      <span class="guide-shell">
+        <i class="guide-antenna guide-antenna-left"></i>
+        <i class="guide-antenna guide-antenna-right"></i>
+        <i class="guide-orbit guide-orbit-a"></i>
+        <i class="guide-orbit guide-orbit-b"></i>
+        <span class="guide-core">
+          <i class="guide-eye"></i>
+          <i class="guide-scan"></i>
+        </span>
+        <i class="guide-wave guide-wave-a"></i>
+        <i class="guide-wave guide-wave-b"></i>
+      </span>
+      <span class="guide-copy">星导员小轨待命</span>
+    </div>
 
     <section class="scan-overlay" id="scanOverlay" aria-hidden="true">
       <div class="scan-box">
@@ -86,6 +97,22 @@
         <strong id="scanTarget">目标</strong>
         <div class="scan-progress"><span id="scanBar"></span></div>
         <em id="scanPercent">0%</em>
+      </div>
+    </section>
+
+    <section class="mission-complete-overlay" id="missionCompleteOverlay" aria-hidden="true">
+      <div class="mission-complete-grid"></div>
+      <div class="mission-complete-particles" id="missionCompleteParticles"></div>
+      <div class="mission-complete-ring" aria-hidden="true">
+        <i></i><i></i><i></i>
+        <span>9 / 9</span>
+      </div>
+      <div class="mission-complete-copy">
+        <p class="eyebrow">Solar Expedition / Archive Synced</p>
+        <h2>MISSION COMPLETE</h2>
+        <p>太阳与八大行星扫描完成</p>
+        <div class="mission-complete-line"><span></span></div>
+        <small>正在返回太阳系空间总览</small>
       </div>
     </section>
 
@@ -114,7 +141,18 @@
         </div>
         <ul id="factList"></ul>
         <div class="guide-mini fact-guide" id="factGuideMini" aria-hidden="true">
-          <span class="guide-core"><i></i></span>
+          <span class="guide-shell">
+            <i class="guide-antenna guide-antenna-left"></i>
+            <i class="guide-antenna guide-antenna-right"></i>
+            <i class="guide-orbit guide-orbit-a"></i>
+            <i class="guide-orbit guide-orbit-b"></i>
+            <span class="guide-core">
+              <i class="guide-eye"></i>
+              <i class="guide-scan"></i>
+            </span>
+            <i class="guide-wave guide-wave-a"></i>
+            <i class="guide-wave guide-wave-b"></i>
+          </span>
           <span class="guide-copy">星导员小轨待命</span>
         </div>
       </article>

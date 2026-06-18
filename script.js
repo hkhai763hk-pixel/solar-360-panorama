@@ -77,6 +77,7 @@ let briefingTimer = null;
 const completedTargets = new Set();
 
 let missionCelebrated = false;
+let missionSequenceActive = false;
 let currentSpeechText = "";
 let currentUtterance = null;
 let selectedSpeechVoice = null;
@@ -547,11 +548,28 @@ function completeMissionTarget(index) {
 }
 
 function launchMissionCelebration() {
-  const burst = document.createElement("div");
-  burst.className = "celebration-burst";
-  burst.innerHTML = Array.from({ length: 28 }, (_, i) => `<span style="--i:${i}"></span>`).join("");
-  document.body.appendChild(burst);
-  setTimeout(() => burst.remove(), 2200);
+  if (missionSequenceActive) return;
+  missionSequenceActive = true;
+  isScanning = true;
+  closeFact();
+  const overlay = document.getElementById("missionCompleteOverlay");
+  const particles = document.getElementById("missionCompleteParticles");
+  particles.innerHTML = Array.from({ length: 24 }, (_, i) => `<span style="--i:${i}"></span>`).join("");
+  document.body.classList.add("mission-ending");
+  overlay.classList.add("active");
+  overlay.setAttribute("aria-hidden", "false");
+  setTimeout(finishMissionSequence, 3400);
+}
+
+function finishMissionSequence() {
+  const overlay = document.getElementById("missionCompleteOverlay");
+  overlay.classList.remove("active");
+  overlay.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("mission-ending");
+  showOverview(false);
+  updateAIPanel(null);
+  isScanning = false;
+  missionSequenceActive = false;
 }
 
 function updateMissionPanel() {
@@ -838,7 +856,7 @@ function prevPlanet() {
 }
 
 function requestTarget(index) {
-  if (isScanning) return;
+  if (isScanning || missionSequenceActive) return;
   const target = missionTargets[targetOrderIndex(index)];
   isScanning = true;
   document.body.classList.add("scanning-target");
