@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>太阳系漫游指南｜3D 全景科普</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <div id="sceneHost" aria-label="太阳系 3D 全景互动场景"></div>
+
+    <section class="intro-panel glass" id="introPanel">
+      <p class="eyebrow">Solar System Field Guide</p>
+      <h1><span>太阳系</span><span>漫游指南</span></h1>
+      <p>以真实行星顺序为线索，在深空中观察太阳、八大行星与地月系统。</p>
+      <button class="primary-btn" id="startBtn" type="button">进入太阳系</button>
+    </section>
+
+    <section class="briefing-overlay" id="briefingOverlay" aria-hidden="true">
+      <button class="skip-briefing" id="skipBriefing" type="button">SKIP</button>
+      <div class="briefing-card">
+        <p class="eyebrow">Mission Briefing</p>
+        <h2>SOLAR SYSTEM EXPEDITION</h2>
+        <p id="briefingLine">Initializing mission control...</p>
+        <strong id="briefingCount">3</strong>
+      </div>
+    </section>
+
+    <nav class="top-panel glass">
+      <button class="icon-btn" id="prevPlanet" type="button" aria-label="上一颗星球">‹</button>
+      <div>
+        <span id="viewMode">3D ORBIT VIEW</span>
+        <strong id="viewTitle">太阳系空间总览</strong>
+      </div>
+      <button class="icon-btn" id="nextPlanet" type="button" aria-label="下一颗星球">›</button>
+    </nav>
+
+    <section class="route-panel glass" id="routePanel" aria-label="太阳系探索路线">
+      <p class="eyebrow">Solar Mission</p>
+      <div class="route-list" id="routeList"></div>
+    </section>
+
+    <aside class="mission-panel glass" id="missionPanel">
+      <p class="eyebrow">Mission Log</p>
+      <h2 id="missionStatus">探索太阳系</h2>
+      <dl>
+        <div><dt>当前目标</dt><dd id="missionTarget">待选择</dd></div>
+        <div><dt>任务进度</dt><dd id="missionProgress">0 / 9</dd></div>
+      </dl>
+      <div class="scan-list" id="scanList">等待首次扫描</div>
+    </aside>
+
+    <aside class="ai-panel glass" id="aiPanel">
+      <p class="eyebrow">AI 导航</p>
+      <p id="aiMessage">欢迎进入太阳系探索计划。点击任意行星开始扫描任务。</p>
+      <div id="aiTips" class="ai-tips"></div>
+      <div class="guide-mini" id="aiGuideMini" aria-hidden="true">
+        <span class="guide-core"><i></i></span>
+        <span class="guide-copy">星导员小轨待命</span>
+      </div>
+    </aside>
+
+    <aside class="info-panel glass">
+      <p class="eyebrow" id="panelTag">Overview</p>
+      <h2 id="panelTitle">太阳系空间总览</h2>
+      <p id="panelText">点击太阳或任意行星，镜头会飞向目标。进入单天体视角后可继续拖动环绕观察，侧边观察点用于展开科普信息。</p>
+      <div class="control-row">
+        <button class="secondary-btn" id="overviewBtn" type="button">返回总览</button>
+        <button class="primary-btn compact" id="nextRoute" type="button">下一颗</button>
+      </div>
+    </aside>
+
+    <aside class="hotspot-panel glass" id="hotspotPanel">
+      <p class="eyebrow">Data Layers</p>
+      <div id="hotspotList" class="hotspot-list"></div>
+    </aside>
+
+    <div class="planet-strip glass" id="planetStrip" aria-label="星球快速选择"></div>
+    <button class="music-btn glass" id="musicBtn" type="button" aria-pressed="false">背景音乐 关</button>
+
+    <section class="scan-overlay" id="scanOverlay" aria-hidden="true">
+      <div class="scan-box">
+        <p class="eyebrow">Target Acquisition</p>
+        <h2>SCANNING...</h2>
+        <strong id="scanTarget">目标</strong>
+        <div class="scan-progress"><span id="scanBar"></span></div>
+        <em id="scanPercent">0%</em>
+      </div>
+    </section>
+
+    <aside class="fact-modal" id="factModal" aria-hidden="true">
+      <article class="fact-card glass" role="dialog" aria-modal="true" aria-labelledby="factTitle">
+        <button class="close-btn" id="closeFact" type="button" aria-label="关闭">×</button>
+        <p class="eyebrow" id="factKicker">Science Point</p>
+        <div class="fact-visual" id="factVisual" aria-hidden="true">
+          <div class="fact-planet" id="factPlanet"></div>
+          <div class="fact-orbit-lines">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+        <h3 id="factTitle">热点标题</h3>
+        <p class="fact-caption" id="factCaption"></p>
+        <div class="voice-panel" id="voicePanel">
+          <div>
+            <span class="voice-title">语音解说</span>
+            <small id="voiceStatus">星导员小轨准备中</small>
+          </div>
+          <div class="voice-actions">
+            <button type="button" id="voiceReplay">重播</button>
+            <button type="button" id="voicePause">暂停</button>
+            <button type="button" id="voiceStop">关闭语音</button>
+          </div>
+        </div>
+        <ul id="factList"></ul>
+        <div class="guide-mini fact-guide" id="factGuideMini" aria-hidden="true">
+          <span class="guide-core"><i></i></span>
+          <span class="guide-copy">星导员小轨待命</span>
+        </div>
+      </article>
+    </aside>
+  </main>
+
+  <script src="vendor/three/three.min.js"></script>
+  <script src="vendor/three/OrbitControls.legacy.js"></script>
+  <script src="assets/textures/textures-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
